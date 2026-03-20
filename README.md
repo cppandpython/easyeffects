@@ -1,56 +1,792 @@
-# 🌟 Presets for [![EasyEffects](https://flathub.org/en/apps/com.github.wwmm.easyeffects)](https://flathub.org/en/apps/com.github.wwmm.easyeffects)
+# 🎚️ EasyEffects 
 
 
-<br><br>
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Linux-blue?style=for-the-badge&logo=linux" alt="Platform">
+  <img src="https://img.shields.io/badge/App-EasyEffects-green?style=for-the-badge" alt="App">
+  <img src="https://img.shields.io/badge/Type-Audio_Processor-purple?style=for-the-badge" alt="Type">
+  <img src="https://img.shields.io/badge/Effects-10+-orange?style=for-the-badge" alt="Effects">
+</p>
 
 
-# en
+## 📖 **Table of Contents / Содержание**
 
-<br>
+- [English Version](#en)
+- [Русская версия](#ru)
 
-input, output — Here are presets for improving microphone and output sound, removing noise, and enhancing quality, these universal presets are suitable for games, music, and more
+---
 
-<br>
+<a name="en"></a>
+# EN | **EasyEffects - Audio Processing Configuration**
 
-## 🚀 Features
+> **ℹ️ INFO: These are professional audio processing presets for EasyEffects (formerly PulseEffects). Designed for high-quality sound enhancement, noise reduction, and dynamic processing.**
 
-- ✅ Versatility and quality
-- ⚙️ Low latency
+---
 
-<br>
+## 🎯 **What is EasyEffects?**
 
-## 🧰 Installation
+**EasyEffects** is a powerful audio processing application for Linux that provides real-time audio effects. These configuration files define the complete signal processing chain with:
+- **Noise reduction** — RNNoise neural network for voice noise suppression
+- **Dynamic processing** — Compressor, limiter, expander, gate
+- **Frequency shaping** — 15-band parametric equalizer
+- **Spectral processing** — De-esser, bass enhancer
+- **Spatial effects** — Reverb, crossfeed, stereo tools
+- **Pitch shifting** — Real-time pitch and tempo adjustment
 
-[Download input.json](https://github.com/cppandpython/easyeffects/blob/main/input.json)
+---
 
-<br>
+## 🚀 **Key Features**
 
-[Download output.json](https://github.com/cppandpython/easyeffects/blob/main/output.json)
+| Category | Effects |
+|:---|:---|
+| **🎛️ Dynamics** | Compressor (Boosting mode)<br>Limiter with ALR (Automatic Leveling)<br>Expander (Downward)<br>Gate with hysteresis |
+| **🎚️ Equalization** | 15-band parametric EQ<br>Bell, Lo-shelf, Hi-shelf filters<br>Left/Right channel separation<br>IIR filter mode |
+| **🔊 Spectral** | De-esser (RMS detection)<br>Bass enhancer with harmonics<br>Crossfeed for headphones |
+| **🎤 Noise Reduction** | RNNoise VAD (Voice Activity Detection)<br>Spectral noise gating |
+| **🌊 Spatial** | Reverb (Experimental room size)<br>Stereo tools (balance, phase, stereo base)<br>Pitch shifter |
+| **📊 Processing** | RMS/Peak detection<br>Sidechain support<br>Stereo linking |
 
+---
 
+## 📊 **Signal Flow**
 
-<br><br><br>
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         SIGNAL PROCESSING CHAIN                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐│
+│  │                         INPUT CHAIN                                         ││
+│  │  ┌─────────────────────────────────────────────────────────────────────┐   ││
+│  │  │ 1. RNNoise#0      → Noise reduction (VAD enabled)                  │   ││
+│  │  │ 2. Gate#0         → Noise gate with hysteresis                     │   ││
+│  │  │ 3. Compressor#0   → Dynamic range compression (Boosting mode)      │   ││
+│  │  │ 4. Equalizer#0    → 5-band EQ (Hi-pass + 4 bells)                  │   ││
+│  │  │ 5. Deesser#0      → Sibilance reduction (6kHz)                     │   ││
+│  │  │ 6. Pitch#0        → Pitch shifting (disabled)                      │   ││
+│  │  │ 7. Limiter#0      → Brickwall limiting (Herm Wide)                 │   ││
+│  │  └─────────────────────────────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────────────────────────────┘│
+│                                      │                                          │
+│                                      ▼                                          │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐│
+│  │                         OUTPUT CHAIN                                        ││
+│  │  ┌─────────────────────────────────────────────────────────────────────┐   ││
+│  │  │ 1. Equalizer#0     → 15-band EQ (Lo-shelf, bells, Hi-shelf)        │   ││
+│  │  │ 2. Compressor#0    → Dynamic compression (Ratio 5:1)               │   ││
+│  │  │ 3. Deesser#0       → Sibilance reduction (4:1 ratio)               │   ││
+│  │  │ 4. Bass Enhancer#0 → Harmonic enhancement (8.5 harmonics)          │   ││
+│  │  │ 5. Expander#0      → Downward expansion (Ratio 1.5:1)              │   ││
+│  │  │ 6. Pitch#0         → Pitch shifting (disabled)                     │   ││
+│  │  │ 7. Reverb#0        → Room reverb (Experimental)                    │   ││
+│  │  │ 8. Stereo Tools#0  → Stereo imaging (LR mode)                      │   ││
+│  │  │ 9. Crossfeed#0     → Headphone crossfeed (800Hz, 7dB feed)         │   ││
+│  │  │ 10. Limiter#0      → Brickwall limiting (ALR enabled)              │   ││
+│  │  └─────────────────────────────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
 
- 
-# ru
+---
 
-<br>
+## 🔧 **Input Chain Details**
 
-input, output — Здесь представлены пресеты для улучшения звука микрофона и выхода, устранения шумов и повышения его качества, универсальные пресеты подходят для игр, музыки и многое другое
+### RNNoise#0 (Noise Reduction)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `bypass` | `false` | Effect enabled |
+| `enable-vad` | `true` | Voice Activity Detection enabled |
+| `input-gain` | `0.0 dB` | No gain adjustment |
+| `output-gain` | `0.0 dB` | No gain adjustment |
+| `release` | `25.0 ms` | Release time |
+| `vad-thres` | `25.0 %` | VAD threshold |
+| `wet` | `0.0 %` | 100% wet (fully processed) |
 
-<br>
+### Gate#0 (Noise Gate)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `attack` | `10.0 ms` | Attack time |
+| `hysteresis` | `true` | Hysteresis enabled |
+| `hysteresis-threshold` | `-3.0 dB` | Hysteresis threshold |
+| `reduction` | `-12.0 dB` | Gain reduction when closed |
+| `release` | `180.0 ms` | Release time |
+| `threshold` | `-46.0 dB` | Gate threshold |
+| `wet` | `-1.0 dB` | Mix level |
 
-## 🚀 Функции
+### Compressor#0 (Input)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `attack` | `15.0 ms` | Attack time |
+| `boost-amount` | `6.0 dB` | Boost amount |
+| `boost-threshold` | `-72.0 dB` | Boost threshold |
+| `knee` | `-6.0 dB` | Soft knee |
+| `mode` | `Boosting` | Boosting mode |
+| `ratio` | `2.5 :1` | Compression ratio |
+| `release` | `180.0 ms` | Release time |
+| `threshold` | `-19.0 dB` | Compression threshold |
+| `makeup` | `2.0 dB` | Makeup gain |
 
-- ✅ Универсальность и качество
-- ⚙️ Низкая задержка
+### Equalizer#0 (Input - 5-band)
+| Band | Type | Frequency | Gain | Q | Description |
+|:---|:---|:---|:---|:---|:---|
+| Band 0 | Hi-pass | 80 Hz | 0 dB | 1.0 | Subsonic filter (x3 slope) |
+| Band 1 | Bell | 200 Hz | -1.5 dB | 1.0 | Reduce muddiness |
+| Band 2 | Bell | 500 Hz | +1.5 dB | 1.2 | Add body |
+| Band 3 | Bell | 3500 Hz | +1.5 dB | 1.2 | Presence boost |
+| Band 4 | Bell | 9000 Hz | +1.0 dB | 0.7 | Air boost |
 
-<br>
+### Deesser#0 (Input)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `detection` | `RMS` | RMS detection |
+| `f1-freq` | `6000 Hz` | Sibilance frequency |
+| `f1-level` | `-6.0 dB` | Reduction amount |
+| `ratio` | `2.5 :1` | Reduction ratio |
+| `threshold` | `-14.0 dB` | Threshold |
 
-## 🧰 Установка
+### Limiter#0 (Input)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `alr` | `true` | Automatic Leveling enabled |
+| `alr-attack` | `5.0 ms` | ALR attack |
+| `alr-release` | `120.0 ms` | ALR release |
+| `attack` | `1.0 ms` | Limiter attack |
+| `lookahead` | `6.0 ms` | Lookahead time |
+| `mode` | `Herm Wide` | Herm Wide mode |
+| `release` | `10.0 ms` | Limiter release |
+| `threshold` | `-2.0 dB` | Limit threshold |
+| `dithering` | `16bit` | Dithering enabled |
 
-[Скачать input.json](https://github.com/cppandpython/easyeffects/blob/main/input.json)
+---
 
-<br>
+## 🔧 **Output Chain Details**
 
-[Скачать output.json](https://github.com/cppandpython/easyeffects/blob/main/output.json)
+### Equalizer#0 (Output - 15-band)
+
+| Band | Type | Frequency | Gain | Q | Description |
+|:---|:---|:---|:---|:---|:---|
+| Band 0 | Bell | 32 Hz | +2.5 dB | 0.7 | Sub-bass boost |
+| Band 1 | Lo-shelf | 64 Hz | +5.5 dB | 0.6 | Bass shelf |
+| Band 2 | Bell | 90 Hz | +3.0 dB | 1.0 | Low mid presence |
+| Band 3 | Bell | 125 Hz | +2.5 dB | 1.0 | Mid bass |
+| Band 4 | Bell | 200 Hz | -2.0 dB | 1.5 | Muddiness cut |
+| Band 5 | Bell | 350 Hz | +1.0 dB | 1.2 | Warmth |
+| Band 6 | Bell | 500 Hz | +2.0 dB | 1.0 | Body |
+| Band 7 | Bell | 800 Hz | +1.5 dB | 1.2 | Low presence |
+| Band 8 | Bell | 1200 Hz | +2.0 dB | 1.0 | Mid presence |
+| Band 9 | Bell | 2000 Hz | +2.5 dB | 1.0 | Upper mid |
+| Band 10 | Bell | 3500 Hz | +2.0 dB | 0.9 | Presence |
+| Band 11 | Bell | 5000 Hz | +1.5 dB | 1.0 | High presence |
+| Band 12 | Hi-shelf | 8000 Hz | +4.0 dB | 0.7 | Treble shelf |
+| Band 13 | Bell | 12000 Hz | +3.0 dB | 0.7 | Air |
+| Band 14 | Bell | 16000 Hz | +2.0 dB | 0.7 | Ultra-high |
+
+### Compressor#0 (Output)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `attack` | `10.0 ms` | Faster attack |
+| `ratio` | `5.0 :1` | Higher ratio |
+| `release` | `150.0 ms` | Release time |
+| `threshold` | `-25.0 dB` | Threshold |
+| `mode` | `Boosting` | Boosting mode |
+
+### Bass Enhancer#0
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `amount` | `3.0 dB` | Enhancement amount |
+| `blend` | `-10.0 dB` | Blend with original |
+| `harmonics` | `8.5` | Harmonic content |
+| `scope` | `120.0 Hz` | Frequency range |
+
+### Expander#0
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `attack` | `20.0 ms` | Attack time |
+| `ratio` | `1.5 :1` | Expansion ratio |
+| `release` | `100.0 ms` | Release time |
+| `threshold` | `-25.0 dB` | Expansion threshold |
+| `makeup` | `1.0 dB` | Makeup gain |
+| `wet` | `1.0 dB` | Mix level |
+
+### Deesser#0 (Output)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `f1-level` | `0.0 dB` | Lower reduction |
+| `f2-level` | `12.0 dB` | Higher reduction at 4.5kHz |
+| `ratio` | `4.0 :1` | Higher ratio |
+| `threshold` | `-15.0 dB` | Threshold |
+
+### Reverb#0
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `amount` | `-12.0 dB` | Reverb level |
+| `bass-cut` | `400 Hz` | Bass cutoff |
+| `decay-time` | `0.5 s` | Decay time |
+| `room-size` | `Experimental` | Room simulation |
+| `treble-cut` | `3000 Hz` | Treble cutoff |
+
+### Stereo Tools#0
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `mode` | `LR > LR` | Stereo mode |
+| `stereo-base` | `0.0` | Stereo width |
+| `stereo-phase` | `0.0` | Phase shift |
+
+### Crossfeed#0
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `fcut` | `800 Hz` | Crossfeed frequency |
+| `feed` | `7.0 dB` | Crossfeed amount |
+
+### Limiter#0 (Output)
+| Parameter | Value | Description |
+|:---|:---|:---|
+| `alr` | `true` | Automatic Leveling |
+| `alr-knee` | `2.5 dB` | ALR knee |
+| `alr-release` | `150.0 ms` | ALR release |
+| `attack` | `5.0 ms` | Limiter attack |
+| `gain-boost` | `true` | Gain boost enabled |
+| `release` | `5.0 ms` | Limiter release |
+| `threshold` | `-3.0 dB` | Limit threshold |
+
+---
+
+## 📊 **Frequency Response Curve**
+
+```
+Input EQ (5-band):
++3dB ─────────────────────────────────────────────────────────────────
+     │                        ┌──┐
++2dB │                       /    \
+     │                      /      \
++1dB │                     /        \
+     │                    /          \
+ 0dB ─────────────────────────────────────────────────────────────────
+     │   ┌──────────────┐            └──────────────┐
+-1dB │  /                                        ┌──┘
+     │ /                                          │
+-2dB │/                                           │
+     └────────────────────────────────────────────────────────────────
+       20    80    200    500   1000   2000   5000   10000   20000 Hz
+
+Output EQ (15-band):
++6dB ─────────────────────────────────────────────────────────────────
+     │        ┌─────────────────────────────────────────────────────┐
++5dB │       /                                                      \
+     │      /                                                        \
++4dB │     /                                                          \
+     │    /                                                            \
++3dB │   /                                                              \
+     │  /                                                                \
++2dB │ /                                                                  \
+     │/                                                                    \
++1dB ───────────────────────────────────────────────────────────────────────
+     │
+ 0dB ───────────────────────────────────────────────────────────────────────
+     │
+-1dB │                                        ┌──┐
+     │                                       /    \
+-2dB │                                      /      \
+     └────────────────────────────────────────────────────────────────
+       20    80    200    500   1000   2000   5000   10000   20000 Hz
+```
+
+---
+
+## 🛠️ **Installation**
+
+### Install EasyEffects
+```bash
+# Debian/Ubuntu
+sudo apt install easyeffects
+
+# Arch Linux
+sudo pacman -S easyeffects
+
+# Fedora
+sudo dnf install easyeffects
+
+# Flatpak (recommended)
+flatpak install flathub com.github.wwmm.easyeffects
+```
+
+### Apply Configuration
+
+1. Open EasyEffects
+2. Go to **Presets** → **Import**
+3. Select `input.json` and `output.json`
+4. Apply presets to input and output devices
+
+---
+
+## 📁 **File Structure**
+
+```
+easyeffects/
+├── input.json           # Input device processing chain
+│   ├── rnnoise#0       → Neural noise suppression
+│   ├── gate#0          → Noise gate
+│   ├── compressor#0    → Dynamic compression (2.5:1)
+│   ├── equalizer#0     → 5-band EQ
+│   ├── deesser#0       → Sibilance reduction
+│   ├── pitch#0         → Pitch shift (disabled)
+│   └── limiter#0       → Brickwall limiter
+│
+├── output.json         # Output device processing chain
+│   ├── equalizer#0     → 15-band EQ
+│   ├── compressor#0    → Dynamic compression (5:1)
+│   ├── deesser#0       → Sibilance reduction
+│   ├── bass_enhancer#0 → Harmonic bass enhancement
+│   ├── expander#0      → Downward expansion
+│   ├── pitch#0         → Pitch shift (disabled)
+│   ├── reverb#0        → Room reverb
+│   ├── stereo_tools#0  → Stereo imaging
+│   ├── crossfeed#0     → Headphone crossfeed
+│   └── limiter#0       → Brickwall limiter with ALR
+│
+└── README.md           # This file
+```
+
+---
+
+## 🎧 **Use Cases**
+
+| Scenario | Settings |
+|:---|:---|
+| **Voice Recording** | RNNoise VAD + Gate + De-esser |
+| **Music Playback** | 15-band EQ + Bass Enhancer + Crossfeed |
+| **Streaming** | Limiter + Expander + Stereo Tools |
+| **Podcast** | Compressor + De-esser + Reverb (light) |
+| **Headphones** | Crossfeed enabled (800Hz, 7dB) |
+| **Speakers** | Crossfeed disabled, Stereo Tools adjusted |
+
+---
+
+## 🔬 **Technical Specifications**
+
+### Processing Parameters
+
+| Parameter | Input | Output |
+|:---|:---|:---|
+| **Sample Rate** | Variable | Variable |
+| **Latency** | ~50 ms | ~100 ms |
+| **CPU Usage** | Low | Medium |
+| **EQ Bands** | 5 | 15 |
+| **Compression Ratio** | 2.5:1 | 5:1 |
+| **Limiter Ceiling** | -2 dBFS | -3 dBFS |
+
+### Filter Types
+
+| Type | Description |
+|:---|:---|
+| **Bell** | Parametric EQ with Q factor |
+| **Lo-shelf** | Low frequency shelf |
+| **Hi-shelf** | High frequency shelf |
+| **Hi-pass** | Low-cut filter |
+| **RLC** | Resonant Low-pass |
+| **BWC** | Bandwidth Controlled |
+
+---
+
+## ⚠️ **Note**
+
+> **ℹ️ These configurations are optimized for high-quality audio processing. Adjust settings based on your hardware and preferences.**
+
+- 🎧 **Headphones** — Crossfeed recommended
+- 🔊 **Speakers** — Disable crossfeed
+- 🎤 **Microphone** — Use input chain only
+- 💻 **Laptop** — Reduce EQ boosts to prevent distortion
+
+---
+
+## 👤 **Author**
+
+**Vladislav Khudash**
+- GitHub: [@cppandpython](https://github.com/cppandpython)
+- Age: 17
+
+---
+
+## ⭐ **Support**
+
+If you found these presets useful, give it a star on GitHub!
+
+---
+
+<a name="ru"></a>
+# RU | **EasyEffects - Конфигурация аудио обработки**
+
+> **ℹ️ ИНФО: Это профессиональные пресеты обработки аудио для EasyEffects (ранее PulseEffects). Разработаны для высококачественного улучшения звука, шумоподавления и динамической обработки.**
+
+---
+
+## 🎯 **Что такое EasyEffects?**
+
+**EasyEffects** — это мощное приложение для обработки аудио в реальном времени для Linux. Эти конфигурационные файлы определяют полную цепочку обработки сигнала с:
+- **Шумоподавлением** — нейронная сеть RNNoise для подавления шума голоса
+- **Динамической обработкой** — компрессор, лимитер, экспандер, гейт
+- **Формированием частот** — 15-полосный параметрический эквалайзер
+- **Спектральной обработкой** — деэссер, усилитель баса
+- **Пространственными эффектами** — реверберация, кроссфид, стереоинструменты
+- **Сдвигом высоты** — изменение высоты тона и темпа в реальном времени
+
+---
+
+## 🚀 **Основные возможности**
+
+| Категория | Эффекты |
+|:---|:---|
+| **🎛️ Динамика** | Компрессор (Boosting режим)<br>Лимитер с ALR (Automatic Leveling)<br>Экспандер (Downward)<br>Гейт с гистерезисом |
+| **🎚️ Эквализация** | 15-полосный параметрический EQ<br>Фильтры Bell, Lo-shelf, Hi-shelf<br>Разделение левого/правого канала<br>IIR режим фильтров |
+| **🔊 Спектральные** | Деэссер (RMS детекция)<br>Усилитель баса с гармониками<br>Кроссфид для наушников |
+| **🎤 Шумоподавление** | RNNoise VAD (Voice Activity Detection)<br>Спектральный гейт |
+| **🌊 Пространственные** | Реверберация (Experimental room size)<br>Стереоинструменты (баланс, фаза, стереобаза)<br>Сдвиг высоты |
+| **📊 Обработка** | RMS/Peak детекция<br>Поддержка сайдчейна<br>Стереолинкинг |
+
+---
+
+## 📊 **Цепочка обработки сигнала**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         ЦЕПОЧКА ОБРАБОТКИ СИГНАЛА                               │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐│
+│  │                         ВХОДНАЯ ЦЕПОЧКА                                    ││
+│  │  ┌─────────────────────────────────────────────────────────────────────┐   ││
+│  │  │ 1. RNNoise#0      → Шумоподавление (VAD включен)                    │   ││
+│  │  │ 2. Gate#0         → Шумовой гейт с гистерезисом                     │   ││
+│  │  │ 3. Compressor#0   → Сжатие динамического диапазона (Boosting)       │   ││
+│  │  │ 4. Equalizer#0    → 5-полосный EQ (Hi-pass + 4 колокола)            │   ││
+│  │  │ 5. Deesser#0      → Подавление шипящих (6кГц)                       │   ││
+│  │  │ 6. Pitch#0        → Сдвиг высоты (отключен)                         │   ││
+│  │  │ 7. Limiter#0      → Brickwall лимитер (Herm Wide)                   │   ││
+│  │  └─────────────────────────────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────────────────────────────┘│
+│                                      │                                          │
+│                                      ▼                                          │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐│
+│  │                         ВЫХОДНАЯ ЦЕПОЧКА                                   ││
+│  │  ┌─────────────────────────────────────────────────────────────────────┐   ││
+│  │  │ 1. Equalizer#0     → 15-полосный EQ (Lo-shelf, колокола, Hi-shelf)  │   ││
+│  │  │ 2. Compressor#0    → Динамическое сжатие (Ratio 5:1)               │   ││
+│  │  │ 3. Deesser#0       → Подавление шипящих (4:1 ratio)                │   ││
+│  │  │ 4. Bass Enhancer#0 → Гармоническое усиление баса (8.5 гармоник)    │   ││
+│  │  │ 5. Expander#0      → Экспансия вниз (Ratio 1.5:1)                  │   ││
+│  │  │ 6. Pitch#0         → Сдвиг высоты (отключен)                       │   ││
+│  │  │ 7. Reverb#0        → Комнатная реверберация (Experimental)         │   ││
+│  │  │ 8. Stereo Tools#0  → Стереообработка (LR режим)                    │   ││
+│  │  │ 9. Crossfeed#0     → Кроссфид для наушников (800Гц, 7dB)           │   ││
+│  │  │ 10. Limiter#0      → Brickwall лимитер (ALR включен)               │   ││
+│  │  └─────────────────────────────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔧 **Детали входной цепочки**
+
+### RNNoise#0 (Шумоподавление)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `bypass` | `false` | Эффект включен |
+| `enable-vad` | `true` | Детекция голоса включена |
+| `input-gain` | `0.0 dB` | Без усиления |
+| `output-gain` | `0.0 dB` | Без усиления |
+| `release` | `25.0 ms` | Время затухания |
+| `vad-thres` | `25.0 %` | Порог VAD |
+| `wet` | `0.0 %` | 100% обработанный сигнал |
+
+### Gate#0 (Шумовой гейт)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `attack` | `10.0 ms` | Время атаки |
+| `hysteresis` | `true` | Гистерезис включен |
+| `hysteresis-threshold` | `-3.0 dB` | Порог гистерезиса |
+| `reduction` | `-12.0 dB` | Затухание при закрытии |
+| `release` | `180.0 ms` | Время затухания |
+| `threshold` | `-46.0 dB` | Порог срабатывания |
+| `wet` | `-1.0 dB` | Уровень смешивания |
+
+### Компрессор#0 (Вход)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `attack` | `15.0 ms` | Время атаки |
+| `boost-amount` | `6.0 dB` | Усиление буста |
+| `boost-threshold` | `-72.0 dB` | Порог буста |
+| `knee` | `-6.0 dB` | Мягкое колено |
+| `mode` | `Boosting` | Режим бустинга |
+| `ratio` | `2.5 :1` | Коэффициент сжатия |
+| `release` | `180.0 ms` | Время затухания |
+| `threshold` | `-19.0 dB` | Порог сжатия |
+| `makeup` | `2.0 dB` | Выходное усиление |
+
+### Эквалайзер#0 (Вход - 5 полос)
+| Полоса | Тип | Частота | Усиление | Q | Описание |
+|:---|:---|:---|:---|:---|:---|
+| Полоса 0 | Hi-pass | 80 Гц | 0 dB | 1.0 | Субсоник фильтр (x3 slope) |
+| Полоса 1 | Bell | 200 Гц | -1.5 dB | 1.0 | Уменьшение грязи |
+| Полоса 2 | Bell | 500 Гц | +1.5 dB | 1.2 | Добавление тела |
+| Полоса 3 | Bell | 3500 Гц | +1.5 dB | 1.2 | Присутствие |
+| Полоса 4 | Bell | 9000 Гц | +1.0 dB | 0.7 | Воздух |
+
+### Деэссер#0 (Вход)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `detection` | `RMS` | RMS детекция |
+| `f1-freq` | `6000 Гц` | Частота шипящих |
+| `f1-level` | `-6.0 dB` | Уровень подавления |
+| `ratio` | `2.5 :1` | Коэффициент подавления |
+| `threshold` | `-14.0 dB` | Порог |
+
+### Лимитер#0 (Вход)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `alr` | `true` | Автоматическое выравнивание |
+| `alr-attack` | `5.0 ms` | Атака ALR |
+| `alr-release` | `120.0 ms` | Затухание ALR |
+| `attack` | `1.0 ms` | Атака лимитера |
+| `lookahead` | `6.0 ms` | Упреждение |
+| `mode` | `Herm Wide` | Режим Herm Wide |
+| `release` | `10.0 ms` | Затухание лимитера |
+| `threshold` | `-2.0 dB` | Порог ограничения |
+| `dithering` | `16bit` | Дизеринг включен |
+
+---
+
+## 🔧 **Детали выходной цепочки**
+
+### Эквалайзер#0 (Выход - 15 полос)
+
+| Полоса | Тип | Частота | Усиление | Q | Описание |
+|:---|:---|:---|:---|:---|:---|
+| Полоса 0 | Bell | 32 Гц | +2.5 dB | 0.7 | Суб-бас |
+| Полоса 1 | Lo-shelf | 64 Гц | +5.5 dB | 0.6 | Басовый шельф |
+| Полоса 2 | Bell | 90 Гц | +3.0 dB | 1.0 | Нижняя середина |
+| Полоса 3 | Bell | 125 Гц | +2.5 dB | 1.0 | Средний бас |
+| Полоса 4 | Bell | 200 Гц | -2.0 dB | 1.5 | Срез грязи |
+| Полоса 5 | Bell | 350 Гц | +1.0 dB | 1.2 | Теплота |
+| Полоса 6 | Bell | 500 Гц | +2.0 dB | 1.0 | Тело |
+| Полоса 7 | Bell | 800 Гц | +1.5 dB | 1.2 | Нижнее присутствие |
+| Полоса 8 | Bell | 1200 Гц | +2.0 dB | 1.0 | Среднее присутствие |
+| Полоса 9 | Bell | 2000 Гц | +2.5 dB | 1.0 | Верхняя середина |
+| Полоса 10 | Bell | 3500 Гц | +2.0 dB | 0.9 | Присутствие |
+| Полоса 11 | Bell | 5000 Гц | +1.5 dB | 1.0 | Высокое присутствие |
+| Полоса 12 | Hi-shelf | 8000 Гц | +4.0 dB | 0.7 | ВЧ шельф |
+| Полоса 13 | Bell | 12000 Гц | +3.0 dB | 0.7 | Воздух |
+| Полоса 14 | Bell | 16000 Гц | +2.0 dB | 0.7 | Сверх-ВЧ |
+
+### Компрессор#0 (Выход)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `attack` | `10.0 ms` | Быстрая атака |
+| `ratio` | `5.0 :1` | Высокий коэффициент |
+| `release` | `150.0 ms` | Затухание |
+| `threshold` | `-25.0 dB` | Порог |
+| `mode` | `Boosting` | Режим бустинга |
+
+### Bass Enhancer#0 (Усилитель баса)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `amount` | `3.0 dB` | Количество усиления |
+| `blend` | `-10.0 dB` | Смешивание с оригиналом |
+| `harmonics` | `8.5` | Гармоническое содержание |
+| `scope` | `120.0 Hz` | Диапазон частот |
+
+### Экспандер#0
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `attack` | `20.0 ms` | Атака |
+| `ratio` | `1.5 :1` | Коэффициент экспансии |
+| `release` | `100.0 ms` | Затухание |
+| `threshold` | `-25.0 dB` | Порог экспансии |
+| `makeup` | `1.0 dB` | Выходное усиление |
+| `wet` | `1.0 dB` | Уровень смешивания |
+
+### Реверберация#0
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `amount` | `-12.0 dB` | Уровень реверберации |
+| `bass-cut` | `400 Hz` | Срез баса |
+| `decay-time` | `0.5 s` | Время затухания |
+| `room-size` | `Experimental` | Размер комнаты |
+| `treble-cut` | `3000 Hz` | Срез верхов |
+
+### Stereo Tools#0
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `mode` | `LR > LR` | Стереорежим |
+| `stereo-base` | `0.0` | Стереобаза |
+| `stereo-phase` | `0.0` | Фазовый сдвиг |
+
+### Crossfeed#0 (Кроссфид)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `fcut` | `800 Hz` | Частота кроссфида |
+| `feed` | `7.0 dB` | Уровень кроссфида |
+
+### Лимитер#0 (Выход)
+| Параметр | Значение | Описание |
+|:---|:---|:---|
+| `alr` | `true` | Автоматическое выравнивание |
+| `alr-knee` | `2.5 dB` | Колено ALR |
+| `alr-release` | `150.0 ms` | Затухание ALR |
+| `attack` | `5.0 ms` | Атака лимитера |
+| `gain-boost` | `true` | Буст усиления |
+| `release` | `5.0 ms` | Затухание лимитера |
+| `threshold` | `-3.0 dB` | Порог ограничения |
+
+---
+
+## 📊 **АЧХ**
+
+```
+Входной EQ (5 полос):
++3dB ─────────────────────────────────────────────────────────────────
+     │                        ┌──┐
++2dB │                       /    \
+     │                      /      \
++1dB │                     /        \
+     │                    /          \
+ 0dB ─────────────────────────────────────────────────────────────────
+     │   ┌──────────────┐            └──────────────┐
+-1dB │  /                                        ┌──┘
+     │ /                                          │
+-2dB │/                                           │
+     └────────────────────────────────────────────────────────────────
+       20    80    200    500   1000   2000   5000   10000   20000 Гц
+
+Выходной EQ (15 полос):
++6dB ─────────────────────────────────────────────────────────────────
+     │        ┌─────────────────────────────────────────────────────┐
++5dB │       /                                                      \
+     │      /                                                        \
++4dB │     /                                                          \
+     │    /                                                            \
++3dB │   /                                                              \
+     │  /                                                                \
++2dB │ /                                                                  \
+     │/                                                                    \
++1dB ───────────────────────────────────────────────────────────────────────
+     │
+ 0dB ───────────────────────────────────────────────────────────────────────
+     │
+-1dB │                                        ┌──┐
+     │                                       /    \
+-2dB │                                      /      \
+     └────────────────────────────────────────────────────────────────
+       20    80    200    500   1000   2000   5000   10000   20000 Гц
+```
+
+---
+
+## 🛠️ **Установка**
+
+### Установка EasyEffects
+```bash
+# Debian/Ubuntu
+sudo apt install easyeffects
+
+# Arch Linux
+sudo pacman -S easyeffects
+
+# Fedora
+sudo dnf install easyeffects
+
+# Flatpak (рекомендуется)
+flatpak install flathub com.github.wwmm.easyeffects
+```
+
+### Применение конфигурации
+
+1. Откройте EasyEffects
+2. Перейдите в **Presets** → **Import**
+3. Выберите `input.json` и `output.json`
+4. Примените пресеты к входному и выходному устройствам
+
+---
+
+## 📁 **Структура файлов**
+
+```
+easyeffects/
+├── input.json           # Цепочка обработки входа
+│   ├── rnnoise#0       → Нейронное шумоподавление
+│   ├── gate#0          → Шумовой гейт
+│   ├── compressor#0    → Динамическое сжатие (2.5:1)
+│   ├── equalizer#0     → 5-полосный EQ
+│   ├── deesser#0       → Подавление шипящих
+│   ├── pitch#0         → Сдвиг высоты (отключен)
+│   └── limiter#0       → Brickwall лимитер
+│
+├── output.json         # Цепочка обработки выхода
+│   ├── equalizer#0     → 15-полосный EQ
+│   ├── compressor#0    → Динамическое сжатие (5:1)
+│   ├── deesser#0       → Подавление шипящих
+│   ├── bass_enhancer#0 → Гармоническое усиление баса
+│   ├── expander#0      → Экспансия вниз
+│   ├── pitch#0         → Сдвиг высоты (отключен)
+│   ├── reverb#0        → Комнатная реверберация
+│   ├── stereo_tools#0  → Стереообработка
+│   ├── crossfeed#0     → Кроссфид для наушников
+│   └── limiter#0       → Brickwall лимитер с ALR
+│
+└── README.md           # Этот файл
+```
+
+---
+
+## 🎧 **Сценарии использования**
+
+| Сценарий | Настройки |
+|:---|:---|
+| **Запись голоса** | RNNoise VAD + Гейт + Деэссер |
+| **Воспроизведение музыки** | 15-полосный EQ + Усилитель баса + Кроссфид |
+| **Стриминг** | Лимитер + Экспандер + Стереоинструменты |
+| **Подкаст** | Компрессор + Деэссер + Реверберация (легкая) |
+| **Наушники** | Кроссфид включен (800Гц, 7dB) |
+| **Колонки** | Кроссфид отключен, Stereo Tools настроены |
+
+---
+
+## 🔬 **Технические характеристики**
+
+### Параметры обработки
+
+| Параметр | Вход | Выход |
+|:---|:---|:---|
+| **Частота дискретизации** | Переменная | Переменная |
+| **Задержка** | ~50 мс | ~100 мс |
+| **Нагрузка CPU** | Низкая | Средняя |
+| **Полос EQ** | 5 | 15 |
+| **Коэффициент сжатия** | 2.5:1 | 5:1 |
+| **Потолок лимитера** | -2 dBFS | -3 dBFS |
+
+---
+
+## ⚠️ **Примечание**
+
+> **ℹ️ Эти конфигурации оптимизированы для высококачественной обработки аудио. Настройте параметры в соответствии с вашим оборудованием и предпочтениями.**
+
+- 🎧 **Наушники** — Рекомендуется Crossfeed
+- 🔊 **Колонки** — Отключите Crossfeed
+- 🎤 **Микрофон** — Используйте только входную цепочку
+- 💻 **Ноутбук** — Уменьшите подъемы EQ для предотвращения искажений
+
+---
+
+## 👤 **Автор**
+
+**Владислав Худаш**
+- GitHub: [@cppandpython](https://github.com/cppandpython)
+- Возраст: 17
+
+---
+
+## ⭐ **Поддержка**
+
+Если эти пресеты оказались полезными, поставьте звездочку на GitHub!
+
+---
